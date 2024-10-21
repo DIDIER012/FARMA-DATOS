@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import models.inventarioModel;
 import services.inventarioServices;
 
+
+
 @RestController
 @RequestMapping("/inventario")
 
@@ -25,11 +27,26 @@ public class inventarioControler {
     private inventarioServices inventarioServices;
 
 
-    @GetMapping
+    @GetMapping("/all")
     public List<inventarioModel> getAllInventarioModels() {
         return this.inventarioServices.getAllNombres();
     }
 
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Boolean> existeProducto(@PathVariable Long id) {
+    boolean existe = inventarioServices.existePorId(id);
+    
+    if (existe) {
+        return new ResponseEntity<>( HttpStatus.OK); 
+    } else {
+        System.err.println("¡El usuario que buscas no existe!");
+        return new ResponseEntity<>(false, HttpStatus.NOT_FOUND); 
+    }
+}
+
+    
 
     @PostMapping("/crear")
     public ResponseEntity<?> agregarInventario(@RequestBody inventarioModel invetario){

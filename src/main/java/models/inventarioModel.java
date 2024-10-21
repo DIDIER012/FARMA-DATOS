@@ -3,9 +3,12 @@ package models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,10 +31,17 @@ public class inventarioModel {
     private long cantidad;
 
 
-    // Constructor vacío  
+    
+    // Relación con proveedoresModel (Muchos productos pueden pertenecer a un solo proveedor)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proveedor_id", nullable = false) // Nombre de la columna FK (foreign key)
+    private proveedoresModel proveedor;  // El proveedor asociado a este producto del inventario
+
+
+
     public inventarioModel() {}  
 
-    // Getters y Setters  
+
     public Long getId() {  
         return id;  
     }  
